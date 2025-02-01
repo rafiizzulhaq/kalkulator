@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan Biaya Cetak</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Perhitungan Biaya Cetak</h1>
+        
+        <!-- Input Biaya Section -->
+        <div class="grid grid-cols-1 gap-6 bg-white rounded-lg shadow-lg p-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Masukkan Biaya</h2>
+                
+                <!-- Kertas Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium mb-3">Kertas</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jenis Kertas</label>
+                            <select id="paperType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Jenis Kertas</option>
+                                <option value="duplex">Duplex</option>
+                                <option value="ivory">Ivory</option>
+                                <option value="artpaper">Art Paper</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ukuran</label>
+                            <select id="paperSize" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Ukuran</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Gramasi</label>
+                            <select id="paperWeight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Gramasi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah</label>
+                            <input type="text" id="paperQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Harga</label>
+                            <input type="number" id="paperPrice" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total</label>
+                            <input type="number" id="paperTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+                    </div>
+                </div>
+               
+
+                <!-- Ongkos Cetak Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium mb-3">Ongkos Cetak</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jenis Cetak</label>
+                            <select id="printType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Jenis Cetak</option>
+                                <option value="sm58_area_4">Ongkos Cetak SM 58 (area max 35 x 50) - 4 Warna</option>
+                                <option value="sm58_4">Ongkos Cetak SM 58 - 4 Warna</option>
+                                <option value="sm66_4">Ongkos Cetak SM 66 - 4 Warna</option>
+                                <option value="sm58_3">Ongkos Cetak SM 58 - 3 Warna</option>
+                                <option value="sm66_3">Ongkos Cetak SM 66 - 3 Warna</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah</label>
+                            <select id="printQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Jumlah</option>
+                                <option value="1000">1000</option>
+                                <option value="2000">2000</option>
+                                <option value="3000">3000</option>
+                                <option value="4000">4000</option>
+                                <option value="5000">5000</option>
+                                <option value="6000">6000</option>
+                                <option value="8000">8000</option>
+                                <option value="10000">10000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Harga</label>
+                            <input type="number" id="printPrice" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total</label>
+                            <input type="number" id="printTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plat Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium mb-3">Plat</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jenis Plat</label>
+                            <select id="plateType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Pilih Jenis Plat</option>
+                                <option value="folio">Folio (254 x 394 mm)</option>
+                                <option value="doble_folio">Doble Folio GTO (510 x 400 mm)</option>
+                                <option value="hamada">Hamada 700 (467 x 400 mm)</option>
+                                <option value="sm58">SM 58 (570 x 508 mm)</option>
+                                <option value="sm66">SM 66 (650 x 550 mm)</option>
+                                <option value="sm72">SM 72 (724 x 605 mm)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah</label>
+                            <input type="text" id="plateQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Harga</label>
+                            <input type="number" id="platePrice" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total</label>
+                            <input type="number" id="plateTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium mb-3">Biaya Lainnya</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Peso Pon -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Peso Pon</label>
+                            <input type="text" id="pesoPound" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah Peso Pon</label>
+                            <input type="text" id="pesoPoundQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total Peso Pon</label>
+                            <input type="number" id="pesoPoundTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+
+                        <!-- Pon -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Pon</label>
+                            <input type="text" id="pound" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah Pon</label>
+                            <input type="text" id="poundQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total Pon</label>
+                            <input type="number" id="poundTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+
+                        <!-- Transport -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Transport</label>
+                            <input type="text" id="transportCost" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah Transport</label>
+                            <input type="text" id="transportQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Total Transport</label>
+                            <input type="number" id="transportTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+            <h3 class="text-lg font-medium mb-3">Desain</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Harga Desain</label>
+                    <input type="number" id="designPrice" value="35000" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Jumlah Desain</label>
+                    <input type="text" id="designQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Desain</label>
+                    <input type="number" id="designTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-medium mb-3">Laminasi</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Panjang (cm)</label>
+                    <input type="text" id="laminationLength" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Lebar (cm)</label>
+                    <input type="text" id="laminationWidth" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Harga Laminasi</label>
+                    <input type="number" id="laminationPrice" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Jumlah Laminasi</label>
+                    <input type="text" id="laminationQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Laminasi</label>
+                    <input type="number" id="laminationTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-medium mb-3">Lem</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Jenis Lem</label>
+                    <select id="glueType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <option value="">Pilih Jenis Lem</option>
+                        <option value="40">Lem Kebab Jumbo</option>
+                        <option value="30">Lem Kebab Sedang</option>
+                        <option value="30">Lem Papercone Jumbo</option>
+                        <option value="25">Lem Papercone Sedang</option>
+                        <option value="20">Lem Papercone Kecil</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Harga Lem</label>
+                    <input type="number" id="gluePrice" readonly class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Jumlah Lem</label>
+                    <input type="text" id="glueQuantity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Lem</label>
+                    <input type="number" id="glueTotal" readonly class="mt-1 block w-full rounded-md total-field">
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Previous script with added functions -->
+        <script>
+            // Previous JavaScript code remains the same, with these additions:
+
+            // New event listeners
+            document.getElementById('designQuantity').addEventListener('input', updateDesignTotal);
+            document.getElementById('laminationLength').addEventListener('input', updateLaminationPrice);
+            document.getElementById('laminationWidth').addEventListener('input', updateLaminationPrice);
+            document.getElementById('laminationQuantity').addEventListener('input', updateLaminationTotal);
+            document.getElementById('glueType').addEventListener('change', updateGluePrice);
+            document.getElementById('glueQuantity').addEventListener('input', updateGlueTotal);
+
+            function updateDesignTotal() {
+                const price = parseFloat(document.getElementById('designPrice').value) || 0;
+                const quantity = parseFloat(document.getElementById('designQuantity').value) || 0;
+                document.getElementById('designTotal').value = price * quantity;
+                updateGrandTotal();
+            }
+
+            function updateLaminationPrice() {
+                const length = parseFloat(document.getElementById('laminationLength').value) || 0;
+                const width = parseFloat(document.getElementById('laminationWidth').value) || 0;
+                const price = (length * width * 0.30).toFixed(2);
+                document.getElementById('laminationPrice').value = price;
+                updateLaminationTotal();
+            }
+
+            function updateLaminationTotal() {
+                const price = parseFloat(document.getElementById('laminationPrice').value) || 0;
+                const quantity = parseFloat(document.getElementById('laminationQuantity').value) || 0;
+                document.getElementById('laminationTotal').value = price * quantity;
+                updateGrandTotal();
+            }
+
+            function updateGluePrice() {
+                const glueType = document.getElementById('glueType').value;
+                document.getElementById('gluePrice').value = glueType;
+                updateGlueTotal();
+            }
+
+            function updateGlueTotal() {
+                const price = parseFloat(document.getElementById('gluePrice').value) || 0;
+                const quantity = parseFloat(document.getElementById('glueQuantity').value) || 0;
+                document.getElementById('glueTotal').value = price * quantity;
+                updateGrandTotal();
+            }
+
+            function updateGrandTotal() {
+                const totals = [
+                    'paperTotal',
+                    'printTotal',
+                    'plateTotal',
+                    'pesoPoundTotal',
+                    'poundTotal',
+                    'transportTotal',
+                    'designTotal',
+                    'laminationTotal',
+                    'glueTotal'
+                ].map(id => parseFloat(document.getElementById(id).value) || 0);
+                
+                const grandTotal = totals.reduce((sum, total) => sum + total, 0);
+                const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+                
+                document.getElementById('grandTotal').value = grandTotal;
+                
+                // Price per unit calculation and evaluation
+                const pricePerUnit = grandTotal / orderQuantity;
+                
+                // Price evaluation functions
+                function evaluatePrice(basePrice) {
+                    const difference = basePrice - pricePerUnit;
+                    const percentageDiff = (difference / pricePerUnit) * 100;
+                    
+                    if (percentageDiff >= 40 && percentageDiff <= 60) {
+                        return { text: 'Terlalu Mahal', className: 'price-warning-high' };
+                    } else if (percentageDiff >= 20 && percentageDiff < 40) {
+                        return { text: 'Harga OK', className: 'price-ok' };
+                    } else if (percentageDiff >= 0 && percentageDiff < 20) {
+                        return { text: 'Terlalu Kecil', className: 'price-warning-low' };
+                    }
+                    
+                    return { text: 'Diluar Rentang', className: '' };
+                }
+                
+                // Evaluate prices
+                const price650Eval = evaluatePrice(650);
+                const price400Eval = evaluatePrice(400);
+                const price550Eval = evaluatePrice(550);
+                
+                const price650Field = document.getElementById('price650Eval');
+                const price400Field = document.getElementById('price400Eval');
+                const price550Field = document.getElementById('price550Eval');
+                
+                price650Field.value = price650Eval.text;
+                price650Field.className = `mt-1 block w-full rounded-md total-field ${price650Eval.className}`;
+                
+                price400Field.value = price400Eval.text;
+                price400Field.className = `mt-1 block w-full rounded-md total-field ${price400Eval.className}`;
+                
+                price550Field.value = price550Eval.text;
+                price550Field.className = `mt-1 block w-full rounded-md total-field ${price550Eval.className}`;
+            }
+
+            // Update existing functions to call updateGrandTotal
+            function resetForm() {
+                // Previous reset logic remains the same
+                document.querySelectorAll('input, select').forEach(element => {
+                    if (element.type === 'number' || element.tagName === 'SELECT') {
+                        element.value = '';
+                    }
+                });
+                updateGrandTotal();
+            }
+        </script>
+    </div>
+
+                <!-- Grand Total -->
+                <div class="mt-6 text-center">
+                    <h3 class="text-xl font-bold mb-4 text-center">Total Keseluruhan</h3>
+                    <div class="mt-6">
+                        <div>
+                            <label class="text-xl font-semibold mb-4">Total Biaya:</label>
+                            <input type="text" id="orderQuantity" style="display: none;">
+                            <input type="number" id="grandTotal" readonly class="text-xl font-bold bg-gray-200 p-4">
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .price-warning-high { background-color: #FF7F00; color: white; } /* Terlalu mahal */
+                    .price-ok { background-color: #00FF00; color: black; } /* Harga OK */
+                    .price-warning-low { background-color: #FF0000; color: white; } /* Terlalu kecil */
+                    .total-output { font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+                    .validation-warning {
+                        font-size: 0.875rem;
+                        animation: fadeIn 0.3s ease-in-out;
+                    }
+                    
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(-10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                </style>
+
+                <div class="container mx-auto p-4">
+                    
+                    <form id="calculatorForm">
+                        <div class="mt-6 text-center">
+                            <label for="grandTotal" class="text-xl font-semibold mb-4" style="display: none;">Total Biaya:</label>
+                            <input type="text" id="orderQuantity" style="display: none;">
+                            <input type="number" id="grandTotal" style="display: none;"readonly class="text-xl font-bold bg-gray-200 p-4">
+                        </div>
+                        <div class="mt-6 text-center">
+                            <label for="jumlahOrder" class="text-xl font-semibold mb-4">Jumlah Order:</label>
+                            <input type="text" id="jumlahOrder" class="text-xl font-bold bg-gray-200 p-4" required>
+                        </div>
+                        
+                        <!-- Calculate and Reset Buttons -->
+                        <div class="mt-6 text-center">
+                            <button type="button" id="calculateButton" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                Hitung Total
+                            </button>
+                            <button onclick="resetForm()" class="ml-4 bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                Reset
+                            </button>
+                        </div>
+                        
+                    </form>
+
+                    <div style="margin-top: 20px; margin-bottom: 20px;"></div>
+
+                    <h1 class="text-xl font-bold mb-4 text-center gap-6">Evaluasi Perhitungan Biaya Cetak</h1>
+                    <div id="results" class="mt-4">
+                        <p id="totalBiayaOutput" class="total-output"></p>
+                        <div id="evaluationResults"></div>
+                    </div>
+                </div>
+
+                <script>
+                    document.getElementById('calculateButton').addEventListener('click', function () {
+                        const grandTotal = parseFloat(document.getElementById('grandTotal').value);
+                        const jumlahOrder = parseFloat(document.getElementById('jumlahOrder').value);
+
+                        if (isNaN(grandTotal) || isNaN(jumlahOrder) || jumlahOrder === 0) {
+                            alert('Masukkan nilai yang valid untuk Total Biaya dan Jumlah Order.');
+                            return;
+                        }
+
+                        const biayaPerOrder = grandTotal / jumlahOrder;
+
+                        // Daftar target harga
+                        const targetPrices = [400, 550, 650];
+                        let i = 0;
+
+                        // Output total biaya per order
+                        document.getElementById('totalBiayaOutput').textContent = `Biaya per Order: ${biayaPerOrder.toFixed(2)}`;
+
+                        const evaluationResults = document.getElementById('evaluationResults');
+                        evaluationResults.innerHTML = ''; // Clear hasil sebelumnya
+
+                        // Perulangan dengan while untuk menghitung semua target harga
+                        while (i < targetPrices.length) {
+                            const target = targetPrices[i];
+                            const difference = target - biayaPerOrder;
+                            const percentage = (difference / biayaPerOrder) * 100;
+
+                            let evaluationText = '';
+                            let evaluationClass = '';
+
+                            if (percentage >= 40 && percentage <= 60) {
+                                evaluationText = `Terlalu Mahal (${target})`;
+                                evaluationClass = 'price-warning-high';
+                            } else if (percentage >= 20 && percentage < 40) {
+                                evaluationText = `Harga OK (${target})`;
+                                evaluationClass = 'price-ok';
+                            } else {
+                                evaluationText = `Terlalu Kecil (${target})`;
+                                evaluationClass = 'price-warning-low';
+                            }
+
+                            // Buat elemen hasil evaluasi
+                            const resultElement = document.createElement('p');
+                            resultElement.textContent = evaluationText;
+                            resultElement.className = `total-output ${evaluationClass}`;
+                            evaluationResults.appendChild(resultElement);
+
+                            i++;
+                        }
+                    });
+                    
+                    document.getElementById('calculateButton').addEventListener('click', function() {
+                    // Reset previous warnings
+                    const warnings = document.querySelectorAll('.validation-warning');
+                    warnings.forEach(warning => warning.remove());
+                    
+                    let hasErrors = false;
+
+                    // Required fields validation
+                    const requiredFields = {
+                        'paperQuantity': 'Jumlah Kertas',
+                        'plateQuantity': 'Jumlah Plat',
+                        'pesoPound': 'Peso Pon',
+                        'pesoPoundQuantity': 'Jumlah Peso Pon',
+                        'pound': 'Pon',
+                        'poundQuantity': 'Jumlah Pon',
+                        'transportCost': 'Biaya Transport',
+                        'transportQuantity': 'Jumlah Transport',
+                        'designQuantity': 'Jumlah Desain',
+                        'laminationLength': 'Panjang Laminasi',
+                        'laminationWidth': 'Lebar Laminasi',
+                        'laminationQuantity': 'Jumlah Laminasi',
+                        'glueQuantity': 'Jumlah Lem',
+                        'jumlahOrder': 'Jumlah Order'
+                    };
+
+                    // Validate numeric fields
+                    for (let [fieldId, fieldName] of Object.entries(requiredFields)) {
+                        const field = document.getElementById(fieldId);
+                        const value = field.value.trim();
+                        
+                        if (value !== '' && (isNaN(value) || parseFloat(value) < 0)) {
+                            showWarning(field, `${fieldName} harus berupa angka valid`);
+                            hasErrors = true;
+                        }
+                    }
+
+                    // Validate required dropdowns
+                    const requiredSelects = {
+                        'paperType': 'Jenis Kertas',
+                        'paperSize': 'Ukuran Kertas',
+                        'paperWeight': 'Gramasi Kertas',
+                        'printType': 'Jenis Cetak',
+                        'printQuantity': 'Jumlah Cetak',
+                        'plateType': 'Jenis Plat',
+                    };
+
+                    for (let [selectId, selectName] of Object.entries(requiredSelects)) {
+                        const select = document.getElementById(selectId);
+                        if (!select.value) {
+                            showWarning(select, `${selectName} harus dipilih`);
+                            hasErrors = true;
+                        }
+                    }
+
+                    if (hasErrors) {
+                        return;
+                    }
+
+                    // Original calculation code
+                    const grandTotal = parseFloat(document.getElementById('grandTotal').value);
+                    const jumlahOrder = parseFloat(document.getElementById('jumlahOrder').value);
+
+                    if (isNaN(grandTotal) || isNaN(jumlahOrder) || jumlahOrder === 0) {
+                        alert('Masukkan nilai yang valid untuk Total Biaya dan Jumlah Order.');
+                        return;
+                    }
+
+                    const biayaPerOrder = grandTotal / jumlahOrder;
+                    
+                    document.getElementById('totalBiayaOutput').textContent = 
+                        `Biaya per Order: ${biayaPerOrder.toFixed(2)}`;
+                    
+                    const targetPrices = [400, 550, 650];
+                    const evaluationResults = document.getElementById('evaluationResults');
+                    evaluationResults.innerHTML = '';
+                    
+                    targetPrices.forEach(target => {
+                        const difference = target - biayaPerOrder;
+                        const percentage = (difference / biayaPerOrder) * 100;
+                        
+                        let evaluationText = '';
+                        let evaluationClass = '';
+                        
+                        if (percentage >= 40 && percentage <= 60) {
+                            evaluationText = `Terlalu Mahal (${target})`;
+                            evaluationClass = 'price-warning-high';
+                        } else if (percentage >= 20 && percentage < 40) {
+                            evaluationText = `Harga OK (${target})`;
+                            evaluationClass = 'price-ok';
+                        } else {
+                            evaluationText = `Terlalu Kecil (${target})`;
+                            evaluationClass = 'price-warning-low';
+                        }
+                        
+                        const resultElement = document.createElement('p');
+                        resultElement.textContent = evaluationText;
+                        resultElement.className = `total-output ${evaluationClass}`;
+                        evaluationResults.appendChild(resultElement);
+                    });
+                });
+
+                // Add real-time validation for numeric inputs
+                const numericInputs = [
+                    'paperQuantity',
+                    'plateQuantity',
+                    'pesoPound',
+                    'pesoPoundQuantity',
+                    'pound',
+                    'poundQuantity',
+                    'transportCost',
+                    'transportQuantity',
+                    'designQuantity',
+                    'laminationLength',
+                    'laminationWidth',
+                    'laminationQuantity',
+                    'glueQuantity',
+                    'jumlahOrder'
+                ];
+
+                numericInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input) {
+                        input.addEventListener('input', function() {
+                            const value = this.value.trim();
+                            if (value !== '' && (isNaN(value) || parseFloat(value) < 0)) {
+                                showWarning(this, 'Masukkan angka yang valid');
+                            } else {
+                                removeWarning(this);
+                            }
+                        });
+                    }
+                });
+            </script>
+                    
+                </script>
+            </div>
+        </div>
+
+        
+
+        
+    </div>
+    
+
+    <script>
+        // Data harga kertas
+        const paperPrices = {
+            duplex: {
+                '89x120': {
+                    '250': 3500,
+                    '310': 4300,
+                    '350': 4500,
+                    '400': 4800
+                },
+                '65x113': {
+                    '350': 3000
+                },
+                '79x109': {
+                    '250': 3100,
+                    '310': 3300,
+                    '350': 3500,
+                    '400': 3850
+                }
+            },
+            ivory: {
+                '79x109': {
+                    '210': 2850,
+                    '230': 3000,
+                    '250': 3200,
+                    '300': 3750,
+                    '310': 4750
+                }
+            },
+            artpaper: {
+                '100x65': {
+                    '100': 1170,
+                    '120': 1550,
+                    '150': 1750
+                },
+                '79x109': {
+                    '100': 1350,
+                    '120': 1675,
+                    '150': 1950
+                }
+            }
+        };
+
+        // Data harga cetak
+        const printingPrices = {
+            'sm58_area_4': {
+                '1000': 300000,
+                '2000': 380000,
+                '3000': 460000,
+                '4000': 540000,
+                '5000': 620000,
+                '6000': 700000,
+                '8000': 880000,
+                '10000': 1020000
+            },
+            'sm58_4': {
+                '1000': 340000,
+                '2000': 420000,
+                '3000': 500000,
+                '4000': 580000,
+                '5000': 660000,
+                '6000': 740000,
+                '8000': 900000,
+                '10000': 1060000
+            },
+            'sm66_4': {
+                '1000': 420000,
+                '2000': 505000,
+                '3000': 590000,
+                '4000': 675000,
+                '5000': 760000,
+                '6000': 845000,
+                '8000': 1015000,
+                '10000': 1185000
+            },
+            'sm58_3': {
+                '1000': 260000,
+                '2000': 320000,
+                '3000': 380000,
+                '4000': 440000,
+                '5000': 500000,
+                '6000': 560000,
+                '8000': 680000,
+                '10000': 800000
+            },
+            'sm66_3': {
+                '1000': 320000,
+                '2000': 386000,
+                '3000': 452000,
+                '4000': 518000,
+                '5000': 584000,
+                '6000': 650000,
+                '8000': 782000,
+                '10000': 914000
+            }
+        };
+
+        // Data harga plat
+        const platePrices = {
+            'folio': 8500,
+            'doble_folio': 15500,
+            'hamada': 14500,
+            'sm58': 25000,
+            'sm66': 30000,
+            'sm72': 34000
+        };
+
+        // Event listeners untuk update harga kertas
+        document.getElementById('paperType').addEventListener('change', updatePaperSizes);
+        document.getElementById('paperSize').addEventListener('change', updatePaperWeights);
+        document.getElementById('paperWeight').addEventListener('change', updatePaperPrice);
+        document.getElementById('paperQuantity').addEventListener('input', updatePaperTotal);
+
+        // Event listeners untuk update harga cetak
+        document.getElementById('printType').addEventListener('change', updatePrintingPrice);
+        document.getElementById('printQuantity').addEventListener('change', updatePrintingPrice);
+
+        // Event listeners untuk update harga plat
+        document.getElementById('plateType').addEventListener('change', updatePlatePrice);
+        document.getElementById('plateQuantity').addEventListener('input', updatePlateTotal);
+
+        // Event listeners untuk other costs
+        document.getElementById('pesoPound').addEventListener('input', updatePesoPoundTotal);
+        document.getElementById('pesoPoundQuantity').addEventListener('input', updatePesoPoundTotal);
+        document.getElementById('pound').addEventListener('input', updatePoundTotal);
+        document.getElementById('poundQuantity').addEventListener('input', updatePoundTotal);
+        document.getElementById('transportCost').addEventListener('input', updateTransportTotal);
+        document.getElementById('transportQuantity').addEventListener('input', updateTransportTotal);
+
+        // Tambahan fungsi validasi baru
+        function showWarning(element, message) {
+            // Remove existing warning first
+            removeWarning(element);
+            
+            const warning = document.createElement('div');
+            warning.className = 'validation-warning bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative mt-2';
+            warning.innerHTML = `
+                <svg class="inline w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                ${message}
+            `;
+            element.parentNode.insertBefore(warning, element.nextSibling);
+        }
+
+        function removeWarning(element) {
+            const existingWarning = element.parentNode.querySelector('.validation-warning');
+            if (existingWarning) {
+                existingWarning.remove();
+            }
+        }
+
+
+        function updatePaperSizes() {
+            const paperType = document.getElementById('paperType').value;
+            const paperSizeSelect = document.getElementById('paperSize');
+            paperSizeSelect.innerHTML = '<option value="">Pilih Ukuran</option>';
+            
+            if (paperType && paperPrices[paperType]) {
+                Object.keys(paperPrices[paperType]).forEach(size => {
+                    const option = document.createElement('option');
+                    option.value = size;
+                    option.textContent = size;
+                    paperSizeSelect.appendChild(option);
+                });
+            }
+            updatePaperPrice();
+        }
+
+        function updatePaperWeights() {
+            const paperType = document.getElementById('paperType').value;
+            const paperSize = document.getElementById('paperSize').value;
+            const paperWeightSelect = document.getElementById('paperWeight');
+            paperWeightSelect.innerHTML = '<option value="">Pilih Gramasi</option>';
+            
+            if (paperType && paperSize && paperPrices[paperType][paperSize]) {
+                Object.keys(paperPrices[paperType][paperSize]).forEach(weight => {
+                    const option = document.createElement('option');
+                    option.value = weight;
+                    option.textContent = weight;
+                    paperWeightSelect.appendChild(option);
+                });
+            }
+            updatePaperPrice();
+        }
+
+        function updatePaperPrice() {
+            const paperType = document.getElementById('paperType').value;
+            const paperSize = document.getElementById('paperSize').value;
+            const paperWeight = document.getElementById('paperWeight').value;
+            const priceField = document.getElementById('paperPrice');
+            
+            if (paperType && paperSize && paperWeight) {
+                priceField.value = paperPrices[paperType][paperSize][paperWeight];
+            } else {
+                priceField.value = '';
+            }
+            updatePaperTotal();
+        }
+
+        function updatePaperTotal() {
+            const price = parseFloat(document.getElementById('paperPrice').value) || 0;
+            const quantity = parseFloat(document.getElementById('paperQuantity').value) || 0;
+            document.getElementById('paperTotal').value = price * quantity;
+            updateGrandTotal();
+        }
+
+        function updatePrintingPrice() {
+            const printType = document.getElementById('printType').value;
+            const quantity = document.getElementById('printQuantity').value;
+            const priceField = document.getElementById('printPrice');
+            
+            if (printType && quantity && printingPrices[printType]) {
+                priceField.value = printingPrices[printType][quantity];
+            } else {
+                priceField.value = '';
+            }
+            updatePrintingTotal();
+        }
+
+        function updatePrintingTotal() {
+            const price = parseFloat(document.getElementById('printPrice').value) || 0;
+            document.getElementById('printTotal').value = price;
+            updateGrandTotal();
+        }
+
+        function updatePlatePrice() {
+            const plateType = document.getElementById('plateType').value;
+            const priceField = document.getElementById('platePrice');
+            
+            if (plateType && platePrices[plateType]) {
+                priceField.value = platePrices[plateType];
+            } else {
+                priceField.value = '';
+            }
+            updatePlateTotal();
+        }
+
+        function updatePlateTotal() {
+            const price = parseFloat(document.getElementById('platePrice').value) || 0;
+            const quantity = parseFloat(document.getElementById('plateQuantity').value) || 0;
+            document.getElementById('plateTotal').value = price * quantity;
+            updateGrandTotal();
+        }
+
+        function updatePesoPoundTotal() {
+            const price = parseFloat(document.getElementById('pesoPound').value) || 0;
+            const quantity = parseFloat(document.getElementById('pesoPoundQuantity').value) || 0;
+            document.getElementById('pesoPoundTotal').value = price * quantity;
+            updateGrandTotal();
+        }
+
+        function updatePoundTotal() {
+            const price = parseFloat(document.getElementById('pound').value) || 0;
+            const quantity = parseFloat(document.getElementById('poundQuantity').value) || 0;
+            document.getElementById('poundTotal').value = price * quantity;
+            updateGrandTotal();
+        }
+
+        function updateTransportTotal() {
+            const price = parseFloat(document.getElementById('transportCost').value) || 0;
+            const quantity = parseFloat(document.getElementById('transportQuantity').value) || 0;
+            document.getElementById('transportTotal').value = price * quantity;
+            updateGrandTotal();
+        }
+
+        function updateGrandTotal() {
+                const totals = [
+                    'paperTotal',
+                    'printTotal',
+                    'plateTotal',
+                    'pesoPoundTotal',
+                    'poundTotal',
+                    'transportTotal',
+                    'designTotal',
+                    'laminationTotal',
+                    'glueTotal'
+                ].map(id => parseFloat(document.getElementById(id).value) || 0);
+                
+                const grandTotal = totals.reduce((sum, total) => sum + total, 0);
+                const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+                
+                document.getElementById('grandTotal').value = grandTotal;
+                
+                // Price per unit calculation and evaluation
+                const pricePerUnit = grandTotal / orderQuantity;
+                
+                // Price evaluation functions
+                function evaluatePrice(pricePerUnit) {
+                    const difference = priceEval - pricePerUnit;
+                    const percentageDiff = (difference / pricePerUnit) * 100;
+                    
+                    if (percentageDiff >= 40, percentageDiff <= 60) {
+                        return { text: 'Terlalu Mahal', className: 'price-warning-high' };
+                    } else if (percentageDiff >= 20, percentageDiff < 40) {
+                        return { text: 'Harga OK', className: 'price-ok' };
+                    } else if (percentageDiff >= 0, percentageDiff < 20) {
+                        return { text: 'Terlalu Kecil', className: 'price-warning-low' };
+                    }
+                    
+                    return { text: 'Diluar Rentang', className: '' };
+                }
+                
+                // Evaluate prices
+                const price650Eval = evaluatePrice(650);
+                const price400Eval = evaluatePrice(400);
+                const price550Eval = evaluatePrice(550);
+                
+                const price650Field = document.getElementById('price650Eval');
+                const price400Field = document.getElementById('price400Eval');
+                const price550Field = document.getElementById('price550Eval');
+                
+                price650Field.value = price650Eval.text;
+                price650Field.className = `mt-1 block w-full rounded-md total-field ${price650Eval.className}`;
+                
+                price400Field.value = price400Eval.text;
+                price400Field.className = `mt-1 block w-full rounded-md total-field ${price400Eval.className}`;
+                
+                price550Field.value = price550Eval.text;
+                price550Field.className = `mt-1 block w-full rounded-md total-field ${price550Eval.className}`;
+            }
+
+            // Update existing functions to call updateGrandTotal
+            function resetForm() {
+                // Previous reset logic remains the same
+                document.querySelectorAll('input, select').forEach(element => {
+                    if (element.type === 'number' || element.tagName === 'SELECT') {
+                        element.value = '';
+                    }
+                });
+                updateGrandTotal();
+            }
+
+       
+        
+    </script>
+
+
+   
+</body>
+</html>
+                
